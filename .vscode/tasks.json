@@ -1,0 +1,390 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        // ===== FIRMWARE TASKS =====
+        {
+            "label": "Firmware: Build (Debug)",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml"
+            ],
+            "group": "build",
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Firmware: Build (Release)",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--release",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml"
+            ],
+            "group": "build",
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Firmware: Flash (Debug)",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "espflash",
+                "flash",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml",
+                "--monitor"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "dependsOn": ["Firmware: Build (Debug)"]
+        },
+        {
+            "label": "Firmware: Flash (Release)",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "espflash",
+                "flash",
+                "--release",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml",
+                "--monitor"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "dependsOn": ["Firmware: Build (Release)"]
+        },
+        {
+            "label": "Firmware: Monitor Serial",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "espflash",
+                "monitor",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "isBackground": true
+        },
+        {
+            "label": "Firmware: Erase Flash",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "espflash",
+                "erase-flash"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/firmware"
+            },
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Firmware: Clean",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "clean",
+                "--manifest-path",
+                "${workspaceFolder}/firmware/Cargo.toml"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+
+        // ===== SHARED LIBRARY TASKS =====
+        {
+            "label": "Shared: Build",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--manifest-path",
+                "${workspaceFolder}/shared/Cargo.toml"
+            ],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Shared: Test",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "test",
+                "--manifest-path",
+                "${workspaceFolder}/shared/Cargo.toml"
+            ],
+            "group": "test",
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Shared: Doc",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "doc",
+                "--manifest-path",
+                "${workspaceFolder}/shared/Cargo.toml",
+                "--open"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+
+        // ===== ANDROID APP TASKS =====
+        {
+            "label": "Android: Build Debug APK",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleDebug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Android: Build Release APK",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleRelease"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Android: Build Rust JNI Library",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--manifest-path",
+                "${workspaceFolder}/android-app/rust-core/Cargo.toml",
+                "--target",
+                "aarch64-linux-android",
+                "--release"
+            ],
+            "group": "build",
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Android: Install Debug APK",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "installDebug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "none",
+            "problemMatcher": [],
+            "dependsOn": ["Android: Build Debug APK"]
+        },
+        {
+            "label": "Android: Run Logcat (Rust Core)",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "logcat",
+                "-s",
+                "RustCore:V",
+                "WifiAutoService:V",
+                "RustBridge:V"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "isBackground": true
+        },
+        {
+            "label": "Android: Clean",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "none",
+            "problemMatcher": []
+        },
+
+        // ===== WORKSPACE TASKS =====
+        {
+            "label": "Workspace: Build All",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--workspace"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Workspace: Test All",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "test",
+                "--workspace"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Workspace: Clean All",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "clean"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Workspace: Check Formatting",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "fmt",
+                "--all",
+                "--check"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Workspace: Format Code",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "fmt",
+                "--all"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Workspace: Clippy Lint",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "clippy",
+                "--workspace",
+                "--",
+                "-D",
+                "warnings"
+            ],
+            "group": "none",
+            "problemMatcher": ["$rustc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+
+        // ===== COMBINED DEPLOYMENT TASKS =====
+        {
+            "label": "Deploy: Flash Firmware + Build APK",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Firmware: Flash (Release)",
+                "Android: Build Debug APK"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Deploy: Full System",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Workspace: Test All",
+                "Firmware: Flash (Release)",
+                "Android: Install Debug APK"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

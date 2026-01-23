@@ -1,0 +1,47 @@
+# ESP32 Android Auto WiFi Dongle - Workspace Root
+# 
+# Monorepo structure for Wireless Android Auto bridge using ESP32-S2.
+# The device bridges Car's USB (AOA 2.0) with Android Phone via Wi-Fi.
+#
+# Architecture:
+# - firmware/: ESP32-S2 embassy-based firmware
+# - shared/: Protocol definitions and DataForwarder trait (DRY/SOLID)
+# - android-app/rust-core/: JNI library for Android app
+
+[workspace]
+resolver = "2"
+members = [
+    "shared",
+    "firmware",
+    "android-app/rust-core",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["ESP32 Android Auto Team"]
+license = "MIT"
+repository = "https://github.com/example/esp32-android-auto-wifi"
+
+[workspace.dependencies]
+# Shared dependencies across workspace
+heapless = "0.8"
+defmt = "0.3"
+defmt-rtt = "0.4"
+embedded-io = "0.6"
+embedded-io-async = "0.6"
+
+# Protocol and serialization
+postcard = { version = "1.0", default-features = false, features = ["heapless"] }
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+
+[profile.release]
+opt-level = "s"      # Optimize for size
+lto = true           # Link-time optimization
+codegen-units = 1    # Better optimization
+debug = false
+strip = true
+
+[profile.dev]
+opt-level = 1        # Some optimization for embedded dev
+debug = true

@@ -1,0 +1,20 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./Cargo.toml",
+        "./firmware/Cargo.toml"
+    ],
+    "rust-analyzer.cargo.target": null,
+    "rust-analyzer.check.allTargets": false,
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.procMacro.enable": true,
+    "files.associations": {
+        "*.toml": "toml"
+    },
+    "editor.formatOnSave": true,
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    },
+    "[kotlin]": {
+        "editor.defaultFormatter": "mathiasfrohlich.Kotlin"
+    }
+}
