@@ -99,4 +99,4 @@ that switches the car's head unit into accessory mode:
 MIT License - See LICENSE file for details.
 
 <!-- AUTO-UPDATE-DATE -->
-**Última actualización:** 2026-02-21 17:05:35 -03
+**Última actualización:** 2026-02-21 18:05:46 -03
