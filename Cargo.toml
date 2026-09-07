@@ -4,7 +4,7 @@
 # The device bridges Car's USB (AOA 2.0) with Android Phone via Wi-Fi.
 #
 # Architecture:
-# - firmware/: ESP32-S2 embassy-based firmware
+# - firmware/: ESP32-C3 PlatformIO/Arduino firmware (C++)
 # - shared/: Protocol definitions and DataForwarder trait (DRY/SOLID)
 # - android-app/rust-core/: JNI library for Android app
 
@@ -12,7 +12,6 @@
 resolver = "2"
 members = [
     "shared",
-    "firmware",
     "android-app/rust-core",
 ]
 

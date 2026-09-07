@@ -15,14 +15,11 @@ A Wireless Android Auto bridge using ESP32-S2 that enables wireless projection f
 
 ```
 esp32-android-auto-wifi/
-├── Cargo.toml              # Workspace root
-├── firmware/               # ESP32-S2 firmware (embassy-esp32)
-│   ├── Cargo.toml
+├── Cargo.toml              # Workspace root (shared + android rust-core)
+├── firmware/               # ESP32-C3 firmware (PlatformIO / Arduino C++)
+│   ├── platformio.ini
 │   └── src/
-│       ├── main.rs         # Entry point with USB AOA 2.0 handshake
-│       ├── usb_aoa.rs      # Android Open Accessory protocol
-│       ├── wifi_ap.rs      # Wi-Fi Access Point management
-│       └── bridge.rs       # DataForwarder implementation
+│       └── main.cpp        # WiFi AP + TCP bridge (Android Auto protocol)
 ├── shared/                 # Shared protocol logic (DRY/SOLID)
 │   ├── Cargo.toml
 │   └── src/
@@ -52,28 +49,24 @@ The system employs a zero-copy architecture to minimize latency:
 ### Prerequisites
 
 ```bash
-# Install Rust ESP toolchain
-cargo install espup
-espup install
-
-# Install flash tool
-cargo install cargo-espflash
-
-# Source ESP environment
-. $HOME/export-esp.sh
+# Install PlatformIO Core
+curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py | python3 -
+export PATH=$PATH:$HOME/.platformio/penv/bin
 ```
 
 ### Build Firmware
 
 ```bash
+# PlatformIO (Arduino framework, ESP32-C3)
 cd firmware
-cargo build --release
+pio run
 ```
 
-### Flash to ESP32-S2
+### Flash to ESP32-C3
 
 ```bash
-cargo espflash flash --release --monitor
+cd firmware
+pio run -t upload
 ```
 
 ### Build Android App
@@ -85,7 +78,7 @@ cd android-app
 
 ## USB AOA 2.0 Protocol
 
-The Android Open Accessory 2.0 protocol allows the ESP32-S2 to act as a USB host 
+The Android Open Accessory 2.0 protocol allows the ESP32 to act as a USB host 
 that switches the car's head unit into accessory mode:
 
 1. **Detection**: Identify AOA-capable device via USB descriptors
