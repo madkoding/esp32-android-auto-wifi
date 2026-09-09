@@ -93,3 +93,6 @@ MIT License - See LICENSE file for details.
 
 <!-- AUTO-UPDATE-DATE -->
 **Última actualización:** 2026-02-26 15:51:00 -03
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=madkoding/esp32-android-auto-wifi&type=Date)](https://star-history.com/#madkoding/esp32-android-auto-wifi&Date)
