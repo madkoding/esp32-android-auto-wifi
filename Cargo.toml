@@ -24,7 +24,7 @@ repository = "https://github.com/example/esp32-android-auto-wifi"
 
 [workspace.dependencies]
 # Shared dependencies across workspace
-heapless = "0.8"
+heapless = "0.9"
 defmt = "1.1"
 defmt-rtt = "0.4"
 embedded-io = "0.6"
