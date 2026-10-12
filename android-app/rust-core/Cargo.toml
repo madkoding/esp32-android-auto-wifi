@@ -19,7 +19,7 @@ crate-type = ["cdylib", "staticlib"]
 shared = { path = "../../shared", default-features = true }
 
 # JNI bindings
-jni = { version = "0.21", default-features = false }
+jni = { version = "0.22", default-features = false }
 
 # Logging (maps to Android logcat)
 log = "0.4"
