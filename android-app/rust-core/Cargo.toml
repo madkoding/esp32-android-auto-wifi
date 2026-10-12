@@ -23,7 +23,7 @@ jni = { version = "0.21", default-features = false }
 
 # Logging (maps to Android logcat)
 log = "0.4"
-android_logger = "0.14"
+android_logger = "0.15"
 
 # Error handling
 thiserror = "2"
