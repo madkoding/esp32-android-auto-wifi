@@ -28,7 +28,7 @@ heapless = "0.8"
 defmt = "0.3"
 defmt-rtt = "0.4"
 embedded-io = "0.6"
-embedded-io-async = "0.6"
+embedded-io-async = "0.7"
 
 # Protocol and serialization
 postcard = { version = "1.0", default-features = false, features = ["heapless"] }
